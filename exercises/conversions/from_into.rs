@@ -7,6 +7,8 @@
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
 
+use std::default;
+
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -28,7 +30,7 @@ impl Default for Person {
 // Person::from("Mark,20")` to compile Please note that you'll need to parse the
 // age component into a `usize` with something like `"4".parse::<usize>()`. The
 // outcome of this needs to be handled appropriately.
-//
+
 // Steps:
 // 1. If the length of the provided string is 0, then return the default of
 //    Person.
@@ -40,10 +42,30 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.is_empty() {
+            return Person::default();
+        }
+        let parts: Vec<&str> = s.split(',').collect();
+
+        let name = parts.get(0).unwrap_or(&"").to_string();
+
+        if name.is_empty() {
+            return Person::default();
+        }
+
+        if let Some(t) =parts.get(2) {
+            return Person::default();
+        }
+
+        match parts.get(1).unwrap_or(&"").parse() {
+            Ok(age) => return Person{name , age},
+            Err(e) => return Person::default()
+        } 
+        
     }
 }
 
